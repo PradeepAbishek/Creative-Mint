@@ -6,7 +6,7 @@
     style="background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://demos.creative-tim.com/material-dashboard-pro/assets/img/login.jpg');background-position: top center;background-size: cover"
   >
     <v-row class="flex justify-center">
-      <div class="w-25">
+      <v-col cols="12" sm="12" md="6" lg="4">
         <material-card title="LOGIN" color="success" class="px-5 py-3">
           <v-form ref="form">
             <v-row>
@@ -38,17 +38,12 @@
             </v-row>
           </v-form>
           <div class="flex justify-center">
-            <v-btn
-              text
-              color="primary"
-              class="font-weight-bold"
-              @click="login"
-            >
+            <v-btn text color="primary" class="font-weight-bold" @click="login">
               Lets Go
             </v-btn>
           </div>
         </material-card>
-      </div>
+      </v-col>
     </v-row>
   </v-container>
 </template>
