@@ -11,21 +11,106 @@ export default new Vuex.Store({
     drawer: null,
     drawerItems: [
       {
-        icon: "mdi-view-dashboard",
-        title: "Schedules",
-        to: "/schedules",
+        icon: "mdi-send",
+        title: "Send Message",
+        to: "/sendMessage",
       },
       {
-        icon: "mdi-account",
-        title: "Farmers",
+        icon: "mdi-message",
+        title: "Message History",
+        to: "/messageHistory",
       },
       {
-        icon: "mdi-clipboard-outline",
-        title: "Message Templates",
+        icon: "mdi-face",
+        title: "Farmer",
+        to: "/farmer",
+      },
+      {
+        icon: "mdi-clipboard-text",
+        title: "Message Template",
+        to: "/messageTemplate",
       },
     ],
     userLogged: false,
-    editedSchedule: {},
+    editedFarmer: {},
+    notificationModules: [
+      {
+        name: "GAP Notification",
+        value: 1,
+      },
+      {
+        name: "Input Materials Notification",
+        value: 2,
+      },
+      {
+        name: "Stolon Notification",
+        value: 3,
+      },
+      {
+        name: "Price Notification",
+        value: 4,
+      },
+    ],
+    yields: ["High", "Medium", "Low"],
+    loyalty: ["Loyal", "Not Loyal"],
+    yesNoOptions: ["Yes", "No"],
+    months: [
+      {
+        name: "January",
+        value: 1,
+      },
+      {
+        name: "February",
+        value: 2,
+      },
+      {
+        name: "March",
+        value: 3,
+      },
+      {
+        name: "April",
+        value: 4,
+      },
+      {
+        name: "May",
+        value: 5,
+      },
+      {
+        name: "June",
+        value: 6,
+      },
+      {
+        name: "July",
+        value: 7,
+      },
+      {
+        name: "August",
+        value: 8,
+      },
+      {
+        name: "September",
+        value: 9,
+      },
+      {
+        name: "October",
+        value: 10,
+      },
+      {
+        name: "November",
+        value: 11,
+      },
+      {
+        name: "December",
+        value: 12,
+      },
+    ],
+    scheduleReminderOptions: [
+      "DAP Application",
+      "Sowing",
+      "Treatment of Sucker",
+      "Prepartion of Nursery Bed",
+    ],
+    shareHolderOptions: ["All"],
   },
   mutations: {
     SET_BAR_IMAGE(state, payload) {
@@ -37,8 +122,8 @@ export default new Vuex.Store({
     UserLogged(state, payload) {
       state.userLogged = payload;
     },
-    UpdateEditSchedule(state, payload) {
-      state.editedSchedule = payload;
+    UpdateEditFarmer(state, payload) {
+      state.editedFarmer = payload;
     },
   },
   actions: {},

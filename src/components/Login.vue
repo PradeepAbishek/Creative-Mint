@@ -69,7 +69,7 @@ export default {
         ) {
           localStorage.setItem("userLogged", true);
           this.$store.commit("UserLogged", true);
-          this.$router.push("/schedules");
+          this.$router.push("/sendMessage");
         } else {
           alert("Username / Password is incorrect");
           this.$refs.form.reset();

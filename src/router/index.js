@@ -15,17 +15,41 @@ const routes = [
         path: "",
         component: () => import("@/components/Login"),
       },
-      // Schedules
+      // Message History
       {
-        name: "Schedules",
-        path: "/schedules",
-        component: () => import("@/components/Schedules"),
+        name: "Send Message",
+        path: "/sendMessage",
+        component: () => import("@/components/SendMessage"),
       },
-      // Edit Schedules
+      // Message History
       {
-        name: "Edit Schedule",
-        path: "/schedules/edit",
-        component: () => import("@/components/Edit/Schedules"),
+        name: "Message History",
+        path: "/messageHistory",
+        component: () => import("@/components/MessageHistory"),
+      },
+      // Farmer
+      {
+        name: "Farmer",
+        path: "/farmer",
+        component: () => import("@/components/Farmer"),
+      },
+      // Edit Farmer
+      {
+        name: "Edit Farmer",
+        path: "/farmer/edit/",
+        component: () => import("@/components/EditFarmer"),
+      },
+      // Edit Farmer
+      {
+        name: "Create Farmer",
+        path: "/farmer/add/",
+        component: () => import("@/components/CreateFarmer"),
+      },
+      // Message Template
+      {
+        name: "Message Template",
+        path: "/messageTemplate",
+        component: () => import("@/components/MessageTemplate"),
       },
     ],
   },
@@ -45,12 +69,12 @@ router.beforeEach((to, from, next) => {
       store.commit("UserLogged", true);
     }
     if (to.name === "Login" && localStorage.getItem("userLogged") === "true")
-      next({ name: "Schedules" });
+      next({ name: "Message History" });
     if (
-      to.name === "Edit Schedule" &&
-      Object.keys(store.state.editedSchedule).length === 0
+      to.name === "Edit Farmer" &&
+      Object.keys(store.state.editedFarmer).length === 0
     )
-      next({ name: "Schedules" });
+      next({ name: "Farmer" });
     next();
   }
 });

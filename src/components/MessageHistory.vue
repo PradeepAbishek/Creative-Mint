@@ -1,8 +1,8 @@
 <template>
   <v-container fluid tag="section">
     <material-card
-      icon="mdi-clipboard-text"
-      title="Schedules"
+      icon="mdi-message"
+      title="Message History"
       class="px-5 py-3"
     >
       <v-data-table :headers="scheduleTableHeaders" :items="scheduleTableData">
@@ -17,76 +17,23 @@
 </template>
 <script>
 export default {
-  name: "Login",
+  name: "MessageHistory",
   components: {
     MaterialCard: () => import("@/components/MaterialCard"),
   },
   data: () => ({
     scheduleTableHeaders: [
       {
-        text: "Column 1",
-        align: "start",
-        sortable: false,
+        text: "S.No",
         value: "col1",
       },
       {
-        text: "Column 2",
-        align: "start",
-        sortable: false,
+        text: "Message",
         value: "col2",
       },
       {
-        text: "Column 3",
-        align: "start",
-        sortable: false,
+        text: "Total Farmers",
         value: "col3",
-      },
-      {
-        text: "Column 4",
-        align: "start",
-        sortable: false,
-        value: "col4",
-      },
-      {
-        text: "Column 5",
-        align: "start",
-        sortable: false,
-        value: "col5",
-      },
-      {
-        text: "Column 6",
-        align: "start",
-        sortable: false,
-        value: "col6",
-      },
-      {
-        text: "Column 7",
-        align: "start",
-        sortable: false,
-        value: "col7",
-      },
-      {
-        text: "Column 8",
-        align: "start",
-        sortable: false,
-        value: "col8",
-      },
-      {
-        text: "Column 9",
-        align: "start",
-        sortable: false,
-        value: "col9",
-      },
-      {
-        text: "Column 10",
-        align: "start",
-        sortable: false,
-        value: "col10",
-      },
-      {
-        text: "Actions",
-        align: "end",
-        value: "actions",
       },
     ],
     scheduleTableData: [
