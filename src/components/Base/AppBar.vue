@@ -3,25 +3,20 @@
     <v-btn class="mr-3" elevation="1" fab small @click="setDrawer(!drawer)">
       <v-icon>mdi-dots-vertical</v-icon>
     </v-btn>
-
     <v-toolbar-title class="font-weight-light" v-text="$route.name" />
     <v-spacer />
-
-    <v-btn class="ml-2" color="primary" text @click="addFarmer" to="/farmer/add">
+    <v-btn
+      class="ml-2"
+      color="primary"
+      text
+      @click="createFarmer"
+      to="/farmer/create"
+    >
       <v-icon>mdi-plus-box</v-icon>
     </v-btn>
-
-    <!-- <v-menu bottom left offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn text v-bind="attrs" v-on="on" class="ml-2" color="warning">
-          <v-icon>mdi-account</v-icon>
-        </v-btn>
-      </template>
-
-      <v-btn @click="logout" text color="red">
-        Logout
-      </v-btn>
-    </v-menu> -->
+    <v-btn class="ml-2" color="pink darken-1" text to="/messageTemplate/create">
+      <v-icon>mdi-clipboard-plus</v-icon>
+    </v-btn>
     <v-btn class="ml-2" color="warning" text @click="logout">
       <v-icon>mdi-logout</v-icon>
     </v-btn>
@@ -30,7 +25,6 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-
 export default {
   name: "DashboardCoreAppBar",
   data: () => ({
@@ -42,11 +36,9 @@ export default {
       "Another one",
     ],
   }),
-
   computed: {
     ...mapState(["drawer"]),
   },
-
   methods: {
     ...mapMutations({
       setDrawer: "SET_DRAWER",
@@ -56,9 +48,9 @@ export default {
       this.$router.push("/");
       this.$store.commit("UserLogged", false);
     },
-    addFarmer() {
+    createFarmer() {
       this.$store.commit("UpdateEditFarmer", {});
-      this.$router.push("/farmer/add");
+      this.$router.push("/farmer/create");
     },
   },
 };

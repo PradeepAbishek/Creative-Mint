@@ -1,6 +1,6 @@
 <template>
   <v-container fluid tag="section">
-    <material-card :title="$route.name" color="success" class="px-5 py-1">
+    <material-card :title="$route.name" color="warning" class="px-5 py-1">
       <v-form ref="form">
         <v-container class="py-0">
           <v-row>
@@ -8,7 +8,7 @@
               <v-text-field
                 v-model="farmer.farmerId"
                 label="Farmer Id"
-                color="success"
+                color="warning"
                 :rules="mandatoryRule"
               ></v-text-field>
             </v-col>
@@ -16,7 +16,7 @@
               <v-text-field
                 v-model="farmer.farmerName"
                 label="Farmer Name"
-                color="success"
+                color="warning"
                 :rules="mandatoryRule"
               ></v-text-field>
             </v-col>
@@ -24,7 +24,7 @@
               <v-text-field
                 v-model="farmer.phoneNumber"
                 label="Phone Number"
-                color="success"
+                color="warning"
                 :rules="mandatoryRule"
               ></v-text-field>
             </v-col>
@@ -33,7 +33,7 @@
                 v-model="farmer.cluster"
                 :items="clusterOptions"
                 label="Cluster"
-                color="success"
+                color="warning"
                 :rules="mandatoryRule"
               ></v-select>
             </v-col>
@@ -42,7 +42,7 @@
                 v-model="farmer.loyalty"
                 :items="loyaltyOptions"
                 label="Loyalty"
-                color="success"
+                color="warning"
                 item-text="name"
                 :rules="mandatoryRule"
               ></v-select>
@@ -52,7 +52,7 @@
                 v-model="farmer.yield"
                 :items="yieldOptions"
                 label="Yield"
-                color="success"
+                color="warning"
                 item-text="name"
                 :rules="mandatoryRule"
               ></v-select>
@@ -62,7 +62,7 @@
                 v-model="farmer.soldMintOilInPast"
                 :items="yesNoOptions"
                 label="Sold Mint Oil in the Past"
-                color="success"
+                color="warning"
                 :rules="mandatoryRule"
               ></v-select>
             </v-col>
@@ -71,7 +71,7 @@
                 v-model="farmer.purchasedInputMaterialInPast"
                 :items="yesNoOptions"
                 label="Purchased Input Material in Past"
-                color="success"
+                color="warning"
                 :rules="mandatoryRule"
               ></v-select>
             </v-col>
@@ -79,7 +79,7 @@
               <v-text-field
                 v-model="farmer.distanceFromFPC"
                 label="Distance from FPC"
-                color="success"
+                color="warning"
                 :rules="mandatoryRule"
               ></v-text-field>
             </v-col>
@@ -87,18 +87,18 @@
           <v-row>
             <v-btn
               text
-              color="primary"
+              color="warning"
               class="font-weight-bold"
               large
               @click="backToFarmer"
             >
               <v-icon class="mr-2">mdi-chevron-left</v-icon>
-              Back to Farmer
+              Back
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
               text
-              color="primary"
+              color="warning"
               class="font-weight-bold"
               large
               @click="updateFarmer"

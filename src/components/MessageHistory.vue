@@ -1,16 +1,7 @@
 <template>
   <v-container fluid tag="section">
-    <material-card
-      icon="mdi-message"
-      title="Message History"
-      class="px-5 py-3"
-    >
+    <material-card icon="mdi-message" title="Message History" class="px-5 py-3">
       <v-data-table :headers="scheduleTableHeaders" :items="scheduleTableData">
-        <template v-slot:[`item.actions`]="{ item }">
-          <v-icon small class="mr-2" @click="editItem(item)" color="success">
-            mdi-pencil
-          </v-icon>
-        </template>
       </v-data-table>
     </material-card>
   </v-container>
@@ -159,11 +150,5 @@ export default {
       },
     ],
   }),
-  methods: {
-    editItem(item) {
-      this.$store.commit("UpdateEditSchedule", item);
-      this.$router.push("/schedules/edit");
-    },
-  },
 };
 </script>

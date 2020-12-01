@@ -15,7 +15,7 @@ const routes = [
         path: "",
         component: () => import("@/components/Login"),
       },
-      // Message History
+      // Send Message
       {
         name: "Send Message",
         path: "/sendMessage",
@@ -33,23 +33,35 @@ const routes = [
         path: "/farmer",
         component: () => import("@/components/Farmer"),
       },
+      // Create Farmer
+      {
+        name: "Create Farmer",
+        path: "/farmer/create/",
+        component: () => import("@/components/CreateFarmer"),
+      },
       // Edit Farmer
       {
         name: "Edit Farmer",
         path: "/farmer/edit/",
         component: () => import("@/components/EditFarmer"),
       },
-      // Edit Farmer
-      {
-        name: "Create Farmer",
-        path: "/farmer/add/",
-        component: () => import("@/components/CreateFarmer"),
-      },
       // Message Template
       {
         name: "Message Template",
         path: "/messageTemplate",
         component: () => import("@/components/MessageTemplate"),
+      },
+      // Create Message Template
+      {
+        name: "Create Message Template",
+        path: "/messageTemplate/create/",
+        component: () => import("@/components/CreateMessageTemplate"),
+      },
+      // Edit Message Template
+      {
+        name: "Edit Message Template",
+        path: "/messageTemplate/edit/",
+        component: () => import("@/components/EditMessageTemplate"),
       },
     ],
   },
@@ -75,6 +87,11 @@ router.beforeEach((to, from, next) => {
       Object.keys(store.state.editedFarmer).length === 0
     )
       next({ name: "Farmer" });
+    if (
+      to.name === "Edit Message Template" &&
+      Object.keys(store.state.editedMessageTemplate).length === 0
+    )
+      next({ name: "Message Template" });
     next();
   }
 });

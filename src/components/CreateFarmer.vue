@@ -1,6 +1,6 @@
 <template>
   <v-container fluid tag="section">
-    <material-card :title="$route.name" color="success" class="px-5 py-1">
+    <material-card :title="$route.name" color="primary" class="px-5 py-1">
       <v-form ref="form">
         <v-container class="py-0">
           <v-row>
@@ -93,7 +93,7 @@
               @click="backToFarmer"
             >
               <v-icon class="mr-2">mdi-chevron-left</v-icon>
-              Back to Farmer
+              Back 
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn

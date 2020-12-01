@@ -111,6 +111,35 @@ export default new Vuex.Store({
       "Prepartion of Nursery Bed",
     ],
     shareHolderOptions: ["All"],
+    messageTemplateSyntax: [
+      {
+        name: "Selected Input Material",
+        code: "<SIP>",
+      },
+      {
+        name: "Weeks from Overview",
+        code: "<WFO>",
+      },
+      {
+        name: "Selected Cluster",
+        code: "<SC>",
+      },
+      {
+        name: "Selected Price",
+        code: "<SP>",
+      },
+    ],
+    filterData: {},
+    messageTemplateData: [
+      {
+        templateName: "Price Notification",
+        message: `Best prices available at FPC!
+                  Sell Mentha oil at Rs. <SP> 
+                  per kg at <SC>        
+                `,
+      },
+    ],
+    editedMessageTemplate: {},
   },
   mutations: {
     SET_BAR_IMAGE(state, payload) {
@@ -124,6 +153,12 @@ export default new Vuex.Store({
     },
     UpdateEditFarmer(state, payload) {
       state.editedFarmer = payload;
+    },
+    UpdateFilterData(state, payload) {
+      state.filterData = payload;
+    },
+    UpdateEditMessageTemplate(state, payload) {
+      state.editedMessageTemplate = payload;
     },
   },
   actions: {},

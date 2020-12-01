@@ -17,7 +17,7 @@
         }"
         :color="color"
         :max-height="icon ? 90 : undefined"
-        :width="icon ? 'auto' : '100%'"
+        :width="icon ? 'auto' : '50%'"
         elevation="6"
         class="text-start v-card--material__heading mb-n6"
         dark
