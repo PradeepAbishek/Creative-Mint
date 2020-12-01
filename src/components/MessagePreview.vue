@@ -42,23 +42,11 @@
         Preview
         <v-icon class="ml-2">mdi-eye</v-icon>
       </v-btn>
-      <v-btn
-        text
-        color="primary"
-        class="font-weight-bold"
-        large
-        @click="previous"
-      >
+      <v-btn text color="primary" class="font-weight-bold" large @click="save">
         Save
         <v-icon class="ml-2">mdi-message-plus</v-icon>
       </v-btn>
-      <v-btn
-        text
-        color="success"
-        class="font-weight-bold"
-        large
-        @click="previous"
-      >
+      <v-btn text color="success" class="font-weight-bold" large @click="send">
         Send
         <v-icon class="ml-2">mdi-send</v-icon>
       </v-btn>
@@ -67,7 +55,7 @@
         color="error"
         class="font-weight-bold"
         large
-        @click="previous"
+        @click="schedule"
       >
         Schedule
         <v-icon class="ml-2">mdi-timelapse</v-icon>
@@ -81,12 +69,19 @@ export default {
   data: () => ({
     messageTemplate: "",
     price: "",
-    test:
-      "Best prices available at FPC!Sell Mentha oil at Rs. {{price}}p er kg at {{price}}",
   }),
   methods: {
     previous() {
       this.$emit("updateStepper", 1);
+    },
+    save() {
+      alert("Save API");
+    },
+    schedule() {
+      alert("Save API & Schedule API");
+    },
+    preview() {
+      alert("Message Preview");
     },
   },
   computed: {

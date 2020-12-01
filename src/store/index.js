@@ -133,10 +133,7 @@ export default new Vuex.Store({
     messageTemplateData: [
       {
         templateName: "Price Notification",
-        message: `Best prices available at FPC!
-                  Sell Mentha oil at Rs. <SP> 
-                  per kg at <SC>        
-                `,
+        message: `Best prices available at FPC!Sell Mentha oil at Rs. <SP> per kg at <SC>`,
       },
     ],
     editedMessageTemplate: {},
