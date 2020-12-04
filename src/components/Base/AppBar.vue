@@ -5,21 +5,54 @@
     </v-btn>
     <v-toolbar-title class="font-weight-light" v-text="$route.name" />
     <v-spacer />
-    <v-btn
-      class="ml-2"
-      color="primary"
-      text
-      @click="createFarmer"
-      to="/farmer/create"
-    >
-      <v-icon>mdi-plus-box</v-icon>
-    </v-btn>
-    <v-btn class="ml-2" color="pink darken-1" text to="/messageTemplate/create">
-      <v-icon>mdi-clipboard-plus</v-icon>
-    </v-btn>
-    <v-btn class="ml-2" color="warning" text @click="logout">
-      <v-icon>mdi-logout</v-icon>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          class="ml-2"
+          color="primary"
+          text
+          @click="createFarmer"
+          to="/farmer/create"
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>mdi-plus-box</v-icon>
+        </v-btn>
+      </template>
+      <span>Create Farmer</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          class="ml-2"
+          color="pink darken-1"
+          text
+          to="/messageTemplate/create"
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>mdi-clipboard-plus</v-icon>
+        </v-btn>
+      </template>
+      <span>Create Message Template</span>
+    </v-tooltip>
+
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          class="ml-2"
+          color="warning"
+          text
+          @click="logout"
+          v-bind="attrs"
+          v-on="on"
+        >
+          <v-icon>mdi-logout</v-icon>
+        </v-btn>
+      </template>
+      <span>Logout</span>
+    </v-tooltip>
   </v-app-bar>
 </template>
 

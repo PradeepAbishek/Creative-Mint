@@ -80,6 +80,9 @@ export default {
     schedule() {
       alert("Save API & Schedule API");
     },
+    send() {
+      alert("Save API & Schedule API");
+    },
     preview() {
       alert("Message Preview");
     },
