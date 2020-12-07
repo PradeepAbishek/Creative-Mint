@@ -1,5 +1,22 @@
 <template>
   <v-container fluid tag="section">
+    <v-dialog v-model="dialog" max-width="400px" persistent>
+      <v-card class="ma0">
+        <v-card-title class="justify-center">Message Preview</v-card-title>
+        <v-card-text class="font-weight-bold">
+          Best Price available at FPC! 
+          <br />
+          Sell Menthol oil at Rs.200 per kg at
+          Masauli
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialog = false">
+            Ok
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <v-row>
       <v-col cols="12" sm="12" md="6" lg="6">
         <v-text-field
@@ -37,7 +54,7 @@
         color="indigo"
         class="font-weight-bold"
         large
-        @click="previous"
+        @click="dialog = !dialog"
       >
         Preview
         <v-icon class="ml-2">mdi-eye</v-icon>
@@ -69,6 +86,7 @@ export default {
   data: () => ({
     messageTemplate: "",
     price: "",
+    dialog: false,
   }),
   methods: {
     previous() {
