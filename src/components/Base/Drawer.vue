@@ -80,7 +80,6 @@ export default {
       },
     },
     isAdmin() {
-      console.log(localStorage.getItem("isAdmin"));
       return localStorage.getItem("isAdmin");
     },
   },
