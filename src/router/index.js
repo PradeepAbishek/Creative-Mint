@@ -81,7 +81,7 @@ router.beforeEach((to, from, next) => {
       store.commit("UserLogged", true);
     }
     if (to.name === "Login" && localStorage.getItem("userLogged") === "true")
-      next({ name: "Message History" });
+      next({ name: "Send Message" });
     if (
       to.name === "Edit Farmer" &&
       Object.keys(store.state.editedFarmer).length === 0

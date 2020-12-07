@@ -5,7 +5,7 @@
     </v-btn>
     <v-toolbar-title class="font-weight-light" v-text="$route.name" />
     <v-spacer />
-    <v-tooltip bottom>
+    <v-tooltip bottom v-if="isAdmin == 'true'">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           class="ml-2"
@@ -22,7 +22,7 @@
       <span>Create Farmer</span>
     </v-tooltip>
 
-    <v-tooltip bottom>
+    <v-tooltip bottom v-if="isAdmin == 'true'">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           class="ml-2"
@@ -71,6 +71,9 @@ export default {
   }),
   computed: {
     ...mapState(["drawer"]),
+    isAdmin() {
+      return localStorage.getItem("isAdmin");
+    },
   },
   methods: {
     ...mapMutations({
