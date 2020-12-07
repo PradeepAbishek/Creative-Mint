@@ -42,12 +42,14 @@
           :to="item.to"
           active-class="success white--text"
         >
-          <v-list-item-icon>
-            <v-icon v-text="item.icon"></v-icon>
-          </v-list-item-icon>
-          <v-list-item-content>
-            <v-list-item-title v-text="item.title"></v-list-item-title>
-          </v-list-item-content>
+          <div class="flex" v-if="item.isAdmin ? item.isAdmin === isAdmin : true">
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </div>
         </v-list-item>
       </v-list-item-group>
     </v-list>
@@ -75,6 +77,10 @@ export default {
       set(val) {
         this.$store.commit("SET_DRAWER", val);
       },
+    },
+    isAdmin() {
+      console.log(localStorage.getItem("isAdmin"));
+      return localStorage.getItem("isAdmin");
     },
   },
 };

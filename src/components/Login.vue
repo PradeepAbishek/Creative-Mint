@@ -68,6 +68,15 @@ export default {
           this.password === "ganit@123"
         ) {
           localStorage.setItem("userLogged", true);
+          localStorage.setItem("isAdmin", true);
+          this.$store.commit("UserLogged", true);
+          this.$router.push("/sendMessage");
+        } else if (
+          this.userName === "developers@ganitinc.com" &&
+          this.password === "ganit"
+        ) {
+          localStorage.setItem("userLogged", true);
+          localStorage.setItem("isAdmin", false);
           this.$store.commit("UserLogged", true);
           this.$router.push("/sendMessage");
         } else {
