@@ -41,8 +41,9 @@
           :key="i"
           :to="item.to"
           active-class="success white--text"
+          v-if="item.isAdmin ? item.isAdmin === isAdmin : true"
         >
-          <div class="flex" v-if="item.isAdmin ? item.isAdmin === isAdmin : true">
+          <div class="flex">
             <v-list-item-icon>
               <v-icon v-text="item.icon"></v-icon>
             </v-list-item-icon>
