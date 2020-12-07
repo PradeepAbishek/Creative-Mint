@@ -1,24 +1,20 @@
 <template>
   <v-container fluid tag="section">
+    <v-row>
+      <v-col cols="12" sm="12" md="4" lg="4">
+        <v-select
+          v-model="notificationModule"
+          :items="notificationModules"
+          label="Notification Module"
+          color="success"
+          item-text="name"
+          :rules="mandatoryRule"
+        ></v-select>
+      </v-col>
+    </v-row>
     <v-form ref="form">
       <v-row>
-        <v-col cols="12" sm="12" md="4" lg="4">
-          <v-select
-            v-model="filter.notificationModule"
-            :items="notificationModules"
-            label="Notification Module"
-            color="success"
-            item-text="name"
-            :rules="mandatoryRule"
-          ></v-select>
-        </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule !== 1"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule !== 1">
           <v-select
             v-model="filter.clusters"
             :items="clusterOptions"
@@ -27,7 +23,15 @@
             multiple
             color="success"
             :rules="mandatoryRule2"
-          ></v-select>
+          >
+            <template v-slot:prepend-item>
+              <select-all
+                :selectOption="clusterOptions"
+                label="clusters"
+                v-on:updateSelectAll="updateSelectAll"
+              ></select-all>
+            </template>
+          </v-select>
         </v-col>
         <v-col cols="12" sm="12" md="4" lg="4">
           <v-select
@@ -36,8 +40,18 @@
             label="Yield"
             color="success"
             item-text="name"
-            :rules="mandatoryRule"
-          ></v-select>
+            :rules="mandatoryRule2"
+            multiple
+            small-chips
+          >
+            <template v-slot:prepend-item>
+              <select-all
+                :selectOption="yieldOptions"
+                label="yieldType"
+                v-on:updateSelectAll="updateSelectAll"
+              ></select-all>
+            </template>
+          </v-select>
         </v-col>
         <v-col cols="12" sm="12" md="4" lg="4">
           <v-select
@@ -46,16 +60,20 @@
             label="Loyalty"
             color="success"
             item-text="name"
-            :rules="mandatoryRule"
-          ></v-select>
+            :rules="mandatoryRule2"
+            multiple
+            small-chips
+          >
+            <template v-slot:prepend-item>
+              <select-all
+                :selectOption="loyaltyOptions"
+                label="loyalty"
+                v-on:updateSelectAll="updateSelectAll"
+              ></select-all>
+            </template>
+          </v-select>
         </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule !== 1"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule !== 1">
           <v-select
             v-model="filter.distance"
             :items="distanceOptions"
@@ -64,28 +82,26 @@
             :rules="mandatoryRule"
           ></v-select>
         </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule === 2"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule === 2">
           <v-select
             v-model="filter.inputMaterial"
             :items="inputMaterialOptions"
             label="Input Material"
             color="success"
-            :rules="mandatoryRule"
-          ></v-select>
+            :rules="mandatoryRule2"
+            multiple
+            small-chips
+          >
+            <template v-slot:prepend-item>
+              <select-all
+                :selectOption="inputMaterialOptions"
+                label="inputMaterial"
+                v-on:updateSelectAll="updateSelectAll"
+              ></select-all>
+            </template>
+          </v-select>
         </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule === 4"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule === 4">
           <v-select
             v-model="filter.soldMintOilInPast"
             :items="yesNoOptions"
@@ -94,13 +110,7 @@
             :rules="mandatoryRule"
           ></v-select>
         </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule === 4"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule === 4">
           <v-select
             v-model="filter.purchasedInputMaterialInPast"
             :items="yesNoOptions"
@@ -109,13 +119,7 @@
             :rules="mandatoryRule"
           ></v-select>
         </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule === 1"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule === 1">
           <v-select
             v-model="filter.currentMonth"
             :items="months"
@@ -125,13 +129,7 @@
             :rules="mandatoryRule"
           ></v-select>
         </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule === 1"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule === 1">
           <v-select
             v-model="filter.scheduleReminder"
             :items="scheduleReminderOptions"
@@ -139,15 +137,18 @@
             color="success"
             multiple
             :rules="mandatoryRule2"
-          ></v-select>
+            small-chips
+          >
+            <template v-slot:prepend-item>
+              <select-all
+                :selectOption="scheduleReminderOptions"
+                label="scheduleReminder"
+                v-on:updateSelectAll="updateSelectAll"
+              ></select-all>
+            </template>
+          </v-select>
         </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule === 3"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule === 3">
           <v-select
             v-model="filter.shareHolder"
             :items="shareHolderOptions"
@@ -156,13 +157,7 @@
             :rules="mandatoryRule"
           ></v-select>
         </v-col>
-        <v-col
-          cols="12"
-          sm="12"
-          md="4"
-          lg="4"
-          v-if="filter.notificationModule === 3"
-        >
+        <v-col cols="12" sm="12" md="4" lg="4" v-if="notificationModule === 3">
           <v-text-field
             v-model="filter.numberOfFarmers"
             label="Number of Farmers"
@@ -170,42 +165,39 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      <v-row>
-        <v-spacer></v-spacer>
-        <v-btn
-          text
-          color="primary"
-          class="font-weight-bold"
-          large
-          @click="next"
-        >
-          Next
-          <v-icon class="ml-2">mdi-chevron-right</v-icon>
-        </v-btn>
-      </v-row>
     </v-form>
+    <v-row>
+      <v-spacer></v-spacer>
+      <v-btn text color="primary" class="font-weight-bold" large @click="next">
+        Next
+        <v-icon class="ml-2">mdi-chevron-right</v-icon>
+      </v-btn>
+    </v-row>
   </v-container>
 </template>
 <script>
 export default {
   name: "MessageFilter",
+  components: {
+    SelectAll: () => import("@/components/SelectAll"),
+  },
   data: () => ({
     mandatoryRule: [(v) => !!v || "* Mandatory Field"],
-    mandatoryRule2: [(v) => v.length > 0 || "* Mandatory Field"],
+    mandatoryRule2: [(v) => (v && v.length > 0) || "* Mandatory Field"],
     clusterOptions: ["Fatehpur", "Masauli", "Zaidpur", "Gosaigani"],
     distanceOptions: ["All", 1, 2, 7, 10],
     inputMaterialOptions: ["SSP", "ADP"],
+    notificationModule: 1,
     filter: {
-      notificationModule: 1,
       clusters: [],
-      yieldType: "",
-      loyalty: "",
+      yieldType: [],
+      loyalty: [],
       distance: "",
-      inputMaterial: "",
+      inputMaterial: [],
       soldMintOilInPast: "",
       purchasedInputMaterialInPast: "",
-      currentMonth: new Date().getMonth() + 1,
-      scheduleReminder: "",
+      currentMonth: "",
+      scheduleReminder: [],
       shareHolder: "",
       numberOfFarmers: "",
     },
@@ -218,6 +210,9 @@ export default {
         this.$emit("updateStepper", 2);
         // Update Step
       }
+    },
+    updateSelectAll(payload) {
+      this.filter[payload.label] = payload.value;
     },
   },
   computed: {
@@ -241,6 +236,11 @@ export default {
     },
     shareHolderOptions() {
       return this.$store.state.shareHolderOptions;
+    },
+  },
+  watch: {
+    notificationModule: function(val) {
+      this.$refs.form.reset();
     },
   },
 };
