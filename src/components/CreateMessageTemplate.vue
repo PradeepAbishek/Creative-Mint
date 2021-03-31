@@ -17,7 +17,7 @@
                   :rules="mandatoryRule"
                 ></v-text-field>
               </v-col>
-              <v-col>
+              <v-col cols="12" sm="12" md="12" lg="12">
                 <v-textarea
                   label="Message Template"
                   v-model="messageTemplate.message"
@@ -25,11 +25,21 @@
                   :rules="mandatoryRule"
                 />
               </v-col>
+              <v-col cols="12" sm="12" md="12" lg="12">
+                <v-select
+                  v-model="messageTemplate.notificationModule"
+                  :items="notificationModules"
+                  label="Notification Module"
+                  color="pink darken-1"
+                  item-text="name"
+                  :rules="mandatoryRule"
+                ></v-select>
+              </v-col>
             </v-row>
             <v-row>
               <v-btn
                 text
-                color="pink darken-1"
+                color="error"
                 class="font-weight-bold"
                 large
                 @click="backToMessageTemplate"
@@ -38,7 +48,7 @@
                 Back
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn text color="pink darken-1" @click="createTemplate">
+              <v-btn text color="success" @click="createTemplate">
                 Create
                 <v-icon class="ml-2">mdi-clipboard-plus</v-icon>
               </v-btn>
@@ -53,6 +63,7 @@
   </v-row>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "CreateMessageTemplate",
   components: {
@@ -64,17 +75,34 @@ export default {
     messageTemplate: {
       templateName: "",
       message: "",
+      notificationModule: "",
     },
   }),
   methods: {
     createTemplate() {
       var t = this.$refs.form.validate();
       if (t) {
-        this.$router.push("/messageTemplate");
+        axios
+          .post("/messageTemplates/", this.messageTemplate)
+          .then((res) => {
+            this.$store.commit(
+              "successSnackbar",
+              "Message Template Created Successfully"
+            );
+          })
+          .catch((err) => {
+            this.$store.commit("errorSnackbar", err.response.data.detail);
+          });
+        this.backToMessageTemplate();
       }
     },
     backToMessageTemplate() {
       this.$router.push("/messageTemplate");
+    },
+  },
+  computed: {
+    notificationModules() {
+      return this.$store.state.notificationModules;
     },
   },
 };

@@ -6,14 +6,6 @@
           <v-row>
             <v-col cols="12" sm="12" md="4" lg="4">
               <v-text-field
-                v-model="farmer.farmerId"
-                label="Farmer Id"
-                color="success"
-                :rules="mandatoryRule"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="12" md="4" lg="4">
-              <v-text-field
                 v-model="farmer.farmerName"
                 label="Farmer Name"
                 color="success"
@@ -35,6 +27,8 @@
                 label="Cluster"
                 color="success"
                 :rules="mandatoryRule"
+                item-text="clusterName"
+                item-value="_id"
               ></v-select>
             </v-col>
             <v-col cols="12" sm="12" md="4" lg="4">
@@ -49,7 +43,7 @@
             </v-col>
             <v-col cols="12" sm="12" md="4" lg="4">
               <v-select
-                v-model="farmer.yield"
+                v-model="farmer.yields"
                 :items="yieldOptions"
                 label="Yield"
                 color="success"
@@ -83,22 +77,49 @@
                 :rules="mandatoryRule"
               ></v-text-field>
             </v-col>
+            <v-col cols="12" sm="12" md="4" lg="4">
+              <v-select
+                v-model="farmer.isOnWhatsapp"
+                :items="yesNoOptions"
+                label="Farmer on Whatsapp"
+                color="success"
+                :rules="mandatoryRule"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" sm="12" md="4" lg="4">
+              <v-select
+                v-model="farmer.isOnMessage"
+                :items="yesNoOptions"
+                label="Farmer on Message"
+                color="success"
+                :rules="mandatoryRule"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" sm="12" md="4" lg="4">
+              <v-select
+                v-model="farmer.isActive"
+                :items="yesNoOptions"
+                label="Active Farmer"
+                color="success"
+                :rules="mandatoryRule"
+              ></v-select>
+            </v-col>
           </v-row>
           <v-row>
             <v-btn
               text
-              color="primary"
+              color="error"
               class="font-weight-bold"
               large
               @click="backToFarmer"
             >
               <v-icon class="mr-2">mdi-chevron-left</v-icon>
-              Back 
+              Back
             </v-btn>
             <v-spacer></v-spacer>
             <v-btn
               text
-              color="primary"
+              color="success"
               class="font-weight-bold"
               large
               @click="createFarmer"
@@ -113,6 +134,7 @@
   </v-container>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "CreateFarmer",
   components: {
@@ -120,17 +142,19 @@ export default {
   },
   data: () => ({
     mandatoryRule: [(v) => !!v || "* Mandatory Field"],
-    clusterOptions: ["Fatehpur", "Masauli", "Zaidpur", "Gosaigani"],
+    clusterOptions: [],
     farmer: {
-      farmerId: "",
       farmerName: "",
       cluster: "",
       phoneNumber: "",
       loyalty: "",
-      yield: "",
+      yields: "",
       soldMintOilInPast: "",
       purchasedInputMaterialInPast: "",
       distanceFromFPC: "",
+      isOnWhatsapp: "",
+      isOnMessage: "",
+      isActive: "Yes",
     },
   }),
   methods: {
@@ -140,9 +164,29 @@ export default {
     createFarmer() {
       var t = this.$refs.form.validate();
       if (t) {
-        alert(JSON.stringify(this.farmer));
-        this.$router.push("/farmer");
+        axios
+          .post("/farmers/", this.farmer)
+          .then((res) => {
+            this.$store.commit(
+              "successSnackbar",
+              "Farmer Created Successfully"
+            );
+          })
+          .catch((err) => {
+            this.$store.commit("errorSnackbar", err.response.data.detail);
+          });
+        this.backToFarmer();
       }
+    },
+    getAllClusters() {
+      this.$axios
+        .get("/clusters/")
+        .then((res) => {
+          this.clusterOptions = res.data;
+        })
+        .catch((err) => {
+          this.$store.commit("errorSnackbar", err.response.data.detail);
+        });
     },
   },
   computed: {
@@ -155,6 +199,9 @@ export default {
     yesNoOptions() {
       return this.$store.state.yesNoOptions;
     },
+  },
+  created() {
+    this.getAllClusters();
   },
 };
 </script>

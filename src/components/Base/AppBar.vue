@@ -1,11 +1,11 @@
 <template>
   <v-app-bar id="app-bar" absolute app color="transparent" flat height="75">
     <v-btn class="mr-3" elevation="1" fab small @click="setDrawer(!drawer)">
-      <v-icon>mdi-dots-vertical</v-icon>
+      <v-icon>mdi-move-resize</v-icon>
     </v-btn>
     <v-toolbar-title class="font-weight-light" v-text="$route.name" />
     <v-spacer />
-    <v-tooltip bottom v-if="isAdmin == 'true'">
+    <v-tooltip bottom v-if="isAdmin || isMasterAdmin">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           class="ml-2"
@@ -22,7 +22,7 @@
       <span>Create Farmer</span>
     </v-tooltip>
 
-    <v-tooltip bottom v-if="isAdmin == 'true'">
+    <v-tooltip bottom v-if="isAdmin || isMasterAdmin">
       <template v-slot:activator="{ on, attrs }">
         <v-btn
           class="ml-2"
@@ -72,7 +72,10 @@ export default {
   computed: {
     ...mapState(["drawer"]),
     isAdmin() {
-      return localStorage.getItem("isAdmin");
+      return this.$store.state.adminUser;
+    },
+    isMasterAdmin() {
+      return this.$store.state.masterAdminUser;
     },
   },
   methods: {
@@ -80,9 +83,7 @@ export default {
       setDrawer: "SET_DRAWER",
     }),
     logout() {
-      localStorage.clear();
-      this.$router.push("/");
-      this.$store.commit("UserLogged", false);
+      this.$store.dispatch("logout");
     },
     createFarmer() {
       this.$store.commit("UpdateEditFarmer", {});

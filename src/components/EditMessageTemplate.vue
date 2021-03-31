@@ -13,7 +13,7 @@
                   :rules="mandatoryRule"
                 ></v-text-field>
               </v-col>
-              <v-col>
+              <v-col cols="12" sm="12" md="12" lg="12">
                 <v-textarea
                   label="Message Template"
                   v-model="messageTemplate.message"
@@ -21,11 +21,21 @@
                   :rules="mandatoryRule"
                 />
               </v-col>
+              <v-col cols="12" sm="12" md="12" lg="12">
+                <v-select
+                  v-model="messageTemplate.notificationModule"
+                  :items="notificationModules"
+                  label="Notification Module"
+                  color="warning"
+                  item-text="name"
+                  :rules="mandatoryRule"
+                ></v-select>
+              </v-col>
             </v-row>
             <v-row>
               <v-btn
                 text
-                color="warning"
+                color="error"
                 class="font-weight-bold"
                 large
                 @click="backToMessageTemplate"
@@ -34,7 +44,7 @@
                 Back
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn text color="warning" @click="updateTemplate">
+              <v-btn text color="success" @click="updateTemplate">
                 Update
                 <v-icon class="ml-2">mdi-update</v-icon>
               </v-btn>
@@ -49,6 +59,7 @@
   </v-row>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "CreateMessageTemplate",
   components: {
@@ -63,7 +74,21 @@ export default {
     updateTemplate() {
       var t = this.$refs.form.validate();
       if (t) {
-        this.$router.push("/messageTemplate");
+        axios
+          .put(
+            "/messageTemplates/" + this.messageTemplate._id,
+            this.messageTemplate
+          )
+          .then((res) => {
+            this.$store.commit(
+              "successSnackbar",
+              "Message Template Updated Successfully"
+            );
+          })
+          .catch((err) => {
+            this.$store.commit("errorSnackbar", err.response.data.detail);
+          });
+        this.backToMessageTemplate();
       }
     },
     backToMessageTemplate() {
@@ -74,8 +99,11 @@ export default {
     messageTemplateSyntax() {
       return this.$store.state.messageTemplateSyntax;
     },
+    notificationModules() {
+      return this.$store.state.notificationModules;
+    },
   },
-  created() {
+  mounted() {
     this.messageTemplate = this.$store.state.editedMessageTemplate;
   },
 };

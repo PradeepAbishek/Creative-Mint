@@ -6,14 +6,6 @@
           <v-row>
             <v-col cols="12" sm="12" md="4" lg="4">
               <v-text-field
-                v-model="farmer.farmerId"
-                label="Farmer Id"
-                color="warning"
-                :rules="mandatoryRule"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="12" md="4" lg="4">
-              <v-text-field
                 v-model="farmer.farmerName"
                 label="Farmer Name"
                 color="warning"
@@ -35,6 +27,8 @@
                 label="Cluster"
                 color="warning"
                 :rules="mandatoryRule"
+                item-text="clusterName"
+                item-value="_id"
               ></v-select>
             </v-col>
             <v-col cols="12" sm="12" md="4" lg="4">
@@ -49,7 +43,7 @@
             </v-col>
             <v-col cols="12" sm="12" md="4" lg="4">
               <v-select
-                v-model="farmer.yield"
+                v-model="farmer.yields"
                 :items="yieldOptions"
                 label="Yield"
                 color="warning"
@@ -83,11 +77,38 @@
                 :rules="mandatoryRule"
               ></v-text-field>
             </v-col>
+            <v-col cols="12" sm="12" md="4" lg="4">
+              <v-select
+                v-model="farmer.isOnWhatsapp"
+                :items="yesNoOptions"
+                label="Farmer on Whatsapp"
+                color="warning"
+                :rules="mandatoryRule"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" sm="12" md="4" lg="4">
+              <v-select
+                v-model="farmer.isOnMessage"
+                :items="yesNoOptions"
+                label="Farmer on Message"
+                color="warning"
+                :rules="mandatoryRule"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" sm="12" md="4" lg="4">
+              <v-select
+                v-model="farmer.isActive"
+                :items="yesNoOptions"
+                label="Active Farmer"
+                color="warning"
+                :rules="mandatoryRule"
+              ></v-select>
+            </v-col>
           </v-row>
           <v-row>
             <v-btn
               text
-              color="warning"
+              color="error"
               class="font-weight-bold"
               large
               @click="backToFarmer"
@@ -98,7 +119,7 @@
             <v-spacer></v-spacer>
             <v-btn
               text
-              color="warning"
+              color="success"
               class="font-weight-bold"
               large
               @click="updateFarmer"
@@ -113,6 +134,7 @@
   </v-container>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "EditFarmer",
   components: {
@@ -120,7 +142,7 @@ export default {
   },
   data: () => ({
     mandatoryRule: [(v) => !!v || "* Mandatory Field"],
-    clusterOptions: ["Fatehpur", "Masauli", "Zaidpur", "Gosaigani"],
+    clusterOptions: [],
     farmer: {},
   }),
   methods: {
@@ -131,10 +153,29 @@ export default {
     updateFarmer() {
       var t = this.$refs.form.validate();
       if (t) {
-        alert(JSON.stringify(this.farmer));
-        this.$store.commit("UpdateEditFarmer", {});
-        this.$router.push("/farmer");
+        axios
+          .put("/farmers/" + this.farmer._id, this.farmer)
+          .then((res) => {
+            this.$store.commit(
+              "successSnackbar",
+              "Farmer Updated Successfully"
+            );
+          })
+          .catch((err) => {
+            this.$store.commit("errorSnackbar", err.response.data.detail);
+          });
+        this.backToFarmer();
       }
+    },
+    getAllClusters() {
+      this.$axios
+        .get("/clusters/")
+        .then((res) => {
+          this.clusterOptions = res.data;
+        })
+        .catch((err) => {
+          this.$store.commit("errorSnackbar", err.response.data.detail);
+        });
     },
   },
   computed: {
@@ -149,6 +190,7 @@ export default {
     },
   },
   created() {
+    this.getAllClusters();
     this.farmer = this.$store.state.editedFarmer;
   },
 };

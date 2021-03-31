@@ -3,32 +3,37 @@
     fluid
     tag="section"
     class="flex align-center h-100"
-    style="background-image: linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://demos.creative-tim.com/material-dashboard-pro/assets/img/login.jpg');background-position: top center;background-size: cover"
+    :style="{
+      'background-image':
+        'linear-gradient(to top, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(' +
+        require('../assets/img/login.jpg') +
+        ')',
+      'background-position': 'center top',
+      'background-size': 'cover',
+    }"
   >
     <v-row class="flex justify-center">
       <v-col cols="12" sm="12" md="6" lg="4">
         <material-card title="LOGIN" color="success" class="px-5 py-3">
           <v-form ref="form">
             <v-row>
-              <v-col cols="12" md="12" sm="12">
+              <v-col cols="12" md="12" sm="12" lg="12">
                 <v-text-field
                   v-model="userName"
                   label="Username"
-                  autocomplete="current-password"
                   required
                   :rules="mandatoryRule"
                   prepend-icon="mdi-email"
                   color="success"
                 ></v-text-field>
               </v-col>
-              <v-col cols="12" md="12" sm="12">
+              <v-col cols="12" md="12" sm="12" lg="12">
                 <v-text-field
                   :append-icon="passIcon ? 'mdi-eye' : 'mdi-eye-off'"
                   :type="passIcon ? 'text' : 'password'"
                   @click:append="passIcon = !passIcon"
                   v-model="password"
                   label="Password"
-                  autocomplete="current-password"
                   required
                   :rules="mandatoryRule"
                   prepend-icon="mdi-lock-outline"
@@ -39,7 +44,7 @@
           </v-form>
           <div class="flex justify-center">
             <v-btn text color="primary" class="font-weight-bold" @click="login">
-              Lets Go
+              Let's Go
             </v-btn>
           </div>
         </material-card>
@@ -48,6 +53,7 @@
   </v-container>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "Login",
   components: {
@@ -62,32 +68,13 @@ export default {
   methods: {
     login() {
       var t = this.$refs.form.validate();
+      var formData = new FormData();
+      formData.append("username", this.userName);
+      formData.append("password", this.password);
       if (t) {
-        if (
-          this.userName === "developers@ganitinc.com" &&
-          this.password === "ganit@123"
-        ) {
-          localStorage.setItem("userLogged", true);
-          localStorage.setItem("isAdmin", true);
-          this.$store.commit("UserLogged", true);
-          this.$router.push("/sendMessage");
-        } else if (
-          this.userName === "developers@ganitinc.com" &&
-          this.password === "ganit"
-        ) {
-          localStorage.setItem("userLogged", true);
-          localStorage.setItem("isAdmin", false);
-          this.$store.commit("UserLogged", true);
-          this.$router.push("/sendMessage");
-        } else {
-          alert("Username / Password is incorrect");
-          this.$refs.form.reset();
-        }
+        this.$store.dispatch("login", formData);
       }
     },
-  },
-  mounted() {
-    console.log("dd");
   },
 };
 </script>

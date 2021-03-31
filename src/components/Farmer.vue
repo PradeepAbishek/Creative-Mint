@@ -1,7 +1,18 @@
 <template>
   <v-container fluid tag="section">
-    <material-card icon="mdi-face" title="Farmer" class="px-5 py-3">
-      <v-data-table :headers="farmerHeaders" :items="farmerData">
+    <material-card icon="mdi-human-child" title="Farmer" class="px-5 py-3">
+      <v-text-field
+        v-model="search"
+        prepend-icon="mdi-magnify"
+        color="success"
+        label="Search"
+        clearable
+      ></v-text-field>
+      <v-data-table
+        :headers="farmerHeaders"
+        :items="farmerData"
+        :search="search"
+      >
         <template v-slot:[`item.actions`]="{ item }">
           <v-icon small class="mr-2" @click="editItem(item)" color="error">
             mdi-pencil
@@ -18,12 +29,8 @@ export default {
     MaterialCard: () => import("@/components/MaterialCard"),
   },
   data: () => ({
+    search: "",
     farmerHeaders: [
-      {
-        text: "Id",
-        value: "farmerId",
-        sortable: false,
-      },
       {
         text: "Name",
         value: "farmerName",
@@ -36,7 +43,7 @@ export default {
       },
       {
         text: "Cluster",
-        value: "cluster",
+        value: "clusterDetails.clusterName",
         sortable: false,
       },
       {
@@ -46,7 +53,7 @@ export default {
       },
       {
         text: "Yield",
-        value: "yield",
+        value: "yields",
         sortable: false,
       },
       {
@@ -55,7 +62,7 @@ export default {
         sortable: false,
       },
       {
-        text: "Purchased Input Material in Past",
+        text: "Purchased I/P Material in Past",
         value: "purchasedInputMaterialInPast",
         sortable: false,
       },
@@ -65,74 +72,47 @@ export default {
         sortable: false,
       },
       {
+        text: "On Whatsapp",
+        value: "isOnWhatsapp",
+        sortable: false,
+      },
+      {
+        text: "On Message",
+        value: "isOnMessage",
+        sortable: false,
+      },
+      {
+        text: "Active Farmer",
+        value: "isActive",
+        sortable: false,
+      },
+      {
         text: "Actions",
         value: "actions",
         sortable: false,
       },
     ],
-    farmerData: [
-      {
-        farmerId: "19763",
-        farmerName: "Adesh Kumar",
-        phoneNumber: "40-9839233072",
-        cluster: "Fatehpur",
-        loyalty: "Loyal",
-        yield: "High",
-        soldMintOilInPast: "Yes",
-        purchasedInputMaterialInPast: "No",
-        distanceFromFPC: "4",
-      },
-      {
-        farmerId: "22686",
-        farmerName: "Jogendra Kumar",
-        phoneNumber: "18-9670882103",
-        cluster: "Fatehpur",
-        loyalty: "Loyal",
-        yield: "High",
-        soldMintOilInPast: "Yes",
-        purchasedInputMaterialInPast: "No",
-        distanceFromFPC: "11",
-      },
-      {
-        farmerId: "20008",
-        farmerName: "Shiv Kumar",
-        phoneNumber: "151-7080285878",
-        cluster: "Fatehpur",
-        loyalty: "Loyal",
-        yield: "Medium",
-        soldMintOilInPast: "Yes",
-        purchasedInputMaterialInPast: "No",
-        distanceFromFPC: "5",
-      },
-      {
-        farmerId: "20274",
-        farmerName: "Ram Sewak",
-        phoneNumber: "256-9695005602",
-        cluster: "Fatehpur",
-        loyalty: "Loyal",
-        yield: "High",
-        soldMintOilInPast: "No",
-        purchasedInputMaterialInPast: "Yes",
-        distanceFromFPC: "10",
-      },
-      {
-        farmerId: "10036",
-        farmerName: "Mohd. Ali Hasan",
-        phoneNumber: "40-9839233072",
-        cluster: "Fatehpur",
-        loyalty: "Loyal",
-        yield: "High",
-        soldMintOilInPast: "No",
-        purchasedInputMaterialInPast: "No",
-        distanceFromFPC: "10",
-      },
-    ],
+    farmerData: [],
+    search: "",
   }),
   methods: {
     editItem(farmer) {
       this.$store.commit("UpdateEditFarmer", farmer);
       this.$router.push("/farmer/edit");
     },
+    refreshFarmerData() {
+      this.$axios
+        .get("/farmers/")
+        .then((res) => {
+          this.farmerData = res.data;
+        })
+        .catch((err) => {
+          this.$store.commit("errorSnackbar", err.response.data.detail);
+        });
+    },
+  },
+  mounted() {
+    this.refreshFarmerData();
   },
 };
 </script>

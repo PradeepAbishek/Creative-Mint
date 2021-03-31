@@ -27,7 +27,7 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>Mint Mock UI</v-list-item-title>
+          <v-list-item-title>MINT UI</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
     </v-list>
@@ -41,7 +41,6 @@
           :key="i"
           :to="item.to"
           active-class="success white--text"
-          v-if="item.isAdmin ? item.isAdmin === isAdmin : true"
         >
           <div class="flex">
             <v-list-item-icon>
@@ -58,7 +57,7 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, Store } from "vuex";
 
 export default {
   name: "Drawer",
@@ -70,7 +69,7 @@ export default {
   },
   data: () => ({}),
   computed: {
-    ...mapState(["barColor", "barImage", "drawerItems"]),
+    ...mapState(["barColor", "barImage"]),
     drawer: {
       get() {
         return this.$store.state.drawer;
@@ -79,8 +78,24 @@ export default {
         this.$store.commit("SET_DRAWER", val);
       },
     },
-    isAdmin() {
-      return localStorage.getItem("isAdmin");
+    drawerItems() {
+      if (this.$store.state.masterAdminUser) {
+        return this.$store.state.drawerItems;
+      } else if (this.$store.state.adminUser) {
+        var data = this.$store.state.drawerItems.filter((item) => {
+          if (item.isAdmin === "false" || item.isAdmin === "true") {
+            return item;
+          }
+        });
+        return data;
+      } else {
+        var data = this.$store.state.drawerItems.filter((item) => {
+          if (item.isAdmin === "false") {
+            return item;
+          }
+        });
+        return data;
+      }
     },
   },
 };
